@@ -68,23 +68,23 @@ class OBD2(Frame):
             self.text = Text(self, height = 10, width = 40)
             self.text.grid()
             message1 = "\nYour trip began at this time: " + str(tripdate)
-            self.text.insert(0.0, message1)
+            self.text.insert(1.0, message1)
             message2 = "\nOn this trip you traveled " + str(totaldist) + " miles in " + str(totalmin) + " minutes"
-            self.text.insert(0.0, message2)
+            self.text.insert(END, message2)
             message3 = "\nMax speed for this trip was " + str(maxspd) + " mph"
-            self.text.insert(0.0, message3)
+            self.text.insert(END, message3)
             if maxspd > 65:
                 message4 = "\n- **You're speeding!**"
             else:
                 message4 = ""
-            self.text.insert(0.0, message4)
+            self.text.insert(END, message4)
             message5 = "\nMax engine RPM for this trip was " + str(maxrmp)
-            self.text.insert(0.0, message5)
+            self.text.insert(END, message5)
             message6 = "\nMax throttle position for this trip was " + str(maxthrottle) + " %"
-            self.text.insert(0.0, message6)
+            self.text.insert(END, message6)
             if maxthrottle > 70:
                 message7 = "\nYou're flooring it!"
-                self.text.insert(0.0, message7)
+                self.text.insert(END, message7)
             message8 = "\nYour average miles per gallon was " + str(avgmpg)
 
 root = Tk()
