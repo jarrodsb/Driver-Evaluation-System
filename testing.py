@@ -1,3 +1,6 @@
+# Ross Santos, Jarrod Bieber
+# Data Analysis program
+
 import xlrd
 import xlwt
 from mpl_toolkits.mplot3d import Axes3D
