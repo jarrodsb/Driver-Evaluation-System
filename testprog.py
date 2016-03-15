@@ -1,6 +1,6 @@
 import csv
 
-counter = 0
+counter = int(0)
 
 # change these depending on where in the row of data the value is listed
 speedcolm = 13
@@ -9,6 +9,16 @@ throttlecolm = 14
 distcolm = 15
 mpgcolm = 16
 timecolm = 0
+
+# Creating a grid from GPS data
+# 100 meters is roughly 0.001 difference in lat/long coordinates
+	latitude = []
+	longitude = []
+	grid = [longitude,latitude]
+	
+# for item in latittude
+	# for item in longitude
+		# increment by 0.001
 
 # checks if the string value can be converted into a number.
 # If not, returns 0
@@ -65,15 +75,15 @@ with open('Thurs12-3Log.csv') as csvfile:
 	avgmpg = round(sum(mpgs)/len(mpgs), 2)
 	
 	# print "report"
-	print ("\nYour trip began at this time:", tripdate)
-	print ("On this trip you traveled", totaldist, "miles in", totalmin, "minutes\n")
-	print ("Max speed for this trip was", maxspd, "mph")
+	print "\nYour trip began at this time:", tripdate
+	print "On this trip you traveled", totaldist, "miles in", totalmin, "minutes\n"
+	print "Max speed for this trip was", maxspd, "mph",
 	if maxspd > 65:
-		print("- **You're speeding!**")
-	else: print ("")
-	print ("Max engine RPM for this trip was", maxrmp)
-	print ("Max throttle position for this trip was", maxthrottle, "%")
+		print"- **You're speeding!**"
+	else: print ""
+	print "Max engine RPM for this trip was", maxrmp
+	print "Max throttle position for this trip was", maxthrottle, "%"
 	if maxthrottle > 70:
-		print ("You're flooring it!")
-	print ("Your average miles per gallon was", avgmpg)
+		print "You're flooring it!"
+	print "Your average miles per gallon was", avgmpg
 	
