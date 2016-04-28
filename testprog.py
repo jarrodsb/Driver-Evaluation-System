@@ -48,8 +48,9 @@ def is_speeding(list,num):
 	else:
 		return False
 
-# open file
-with open('Thurs_2-25_Log.csv') as csvfile:
+# open OBD2 data file
+OBDdata = 'Thurs_2-25_Log.csv'
+with open(OBDdata) as csvfile:
 	readCSV = csv.reader(csvfile, delimiter=',')
 	
 	speeds = []
@@ -113,51 +114,51 @@ with open('Thurs_2-25_Log.csv') as csvfile:
 					print("Aggressive breaking at (", gpslong, ",", gpslat, ")\n")
 					brkcount = brkcount + 1
 	
-	# calculate distance and time
-	totaldist = max(dist)
-	totalsec = len(dist)/10 # divide by 2 for half-seconds, divide by 10 for 0.1 seconds
-							# multiply by 2 if recorded every 2 seconds, etc
-	totalmin = round(totalsec/60, 2)
+# calculate distance and time
+totaldist = max(dist)
+totalsec = len(dist)/10 # divide by 2 for half-seconds, divide by 10 for 0.1 seconds
+						# multiply by 2 if recorded every 2 seconds, etc
+totalmin = round(totalsec/60, 2)
+
+# calculate max speed, rpm and throttle
+maxspd = max(speeds)
+maxrmp = max(rpms)
+maxthrottle = max(throttles)
 	
-	# calculate max speed, rpm and throttle
-	maxspd = max(speeds)
-	maxrmp = max(rpms)
-	maxthrottle = max(throttles)
-	
-	# Calculate total score and grade
-	score = (spdcount + brkcount*2 + aclcount*2) / totaldist
-	if score == 0: grade = "A+"
-	elif score <= .5: grade = "A"
-	elif score <= 1: grade = "A-"
-	elif score <= 1.5: grade = "B+"
-	elif score <= 2: grade = "B"
-	elif score <= 2.5: grade = "B-"
-	elif score <= 3: grade = "C+"
-	elif score <= 3.5: grade = "C"
-	elif score <= 4: grade = "C-"
-	elif score <= 4.5: grade = "D+"
-	elif score <= 5: grade = "D"
-	elif score <= 5.5: grade = "D-"
-	else: grade = "F"
-	
-	
-	# print "report"
-	print("******************************REPORT******************************")
-	print("Your trip began at this time:", tripdate)
-	print ("On this trip you traveled", totaldist, "miles from (",
-		gpslongs[0], ",", gpslats[0], ")\n", "to (", gpslongs[len(gpslongs)-1], ",", gpslats[len(gpslats)-1], ") in ", totalmin, "minutes")
-	print ("Max engine RPM for this trip was", maxrmp)
-	print ("Max throttle position for this trip was", maxthrottle, "%")
-	if maxthrottle > 70:
-		print ("**You're flooring it!**")
-	print ("Max speed for this trip was", maxspd, "mph")
-	if spdcount > 0:
-		print("Detected", spdcount, "instances of potential speeding!")
-	if brkcount > 0:
-		print("Detected", brkcount, "instances of sharp breaking!")
-	if aclcount > 0:
-		print("Detected", aclcount, "instances of sharp acceleration!")
-	print("")
-	print ("FINAL GRADE:", grade)
+# Calculate total score and grade
+score = (spdcount + brkcount*2 + aclcount*2) / totaldist
+if score == 0: grade = "A+"
+elif score <= .5: grade = "A"
+elif score <= 1: grade = "A-"
+elif score <= 1.5: grade = "B+"
+elif score <= 2: grade = "B"
+elif score <= 2.5: grade = "B-"
+elif score <= 3: grade = "C+"
+elif score <= 3.5: grade = "C"
+elif score <= 4: grade = "C-"
+elif score <= 4.5: grade = "D+"
+elif score <= 5: grade = "D"
+elif score <= 5.5: grade = "D-"
+else: grade = "F"
+
+
+# print "report"
+print("******************************REPORT******************************")
+print("Your trip began at this time:", tripdate)
+print ("On this trip you traveled", totaldist, "miles from (",
+	gpslongs[0], ",", gpslats[0], ")\n", "to (", gpslongs[len(gpslongs)-1], ",", gpslats[len(gpslats)-1], ") in ", totalmin, "minutes")
+print ("Max engine RPM for this trip was", maxrmp)
+print ("Max throttle position for this trip was", maxthrottle, "%")
+if maxthrottle > 70:
+	print ("**You're flooring it!**")
+print ("Max speed for this trip was", maxspd, "mph")
+if spdcount > 0:
+	print("Detected", spdcount, "instances of potential speeding!")
+if brkcount > 0:
+	print("Detected", brkcount, "instances of sharp breaking!")
+if aclcount > 0:
+	print("Detected", aclcount, "instances of sharp acceleration!")
+print("")
+print ("FINAL GRADE:", grade)
 	
 	
