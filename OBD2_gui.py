@@ -12,7 +12,54 @@ class OBD2(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
         self.grid()
-        self.csv_read()
+        self.openingWidget()
+        self.buttonPressed = 0 #to make sure Show me result button is only pressed once //for now
+
+    #To determine what to do when a button is pressed
+    def OnButtonClick(self, button_id):
+        if button_id == 1:
+            if self.buttonPressed == 0:
+                self.csv_read()
+                self.buttonPressed = 1
+                
+        elif button_id == 2:
+            self.clearGui()
+            self.createMainWidget()
+            self.buttonPressed = 0
+
+        elif button_id == 3:
+            self.clearGui()
+            self.createMainWidget()
+
+        elif button_id == 4:
+            self.clearGui()
+            self.openingWidget()
+            if(self.buttonPressed == 1):
+                self.buttonPressed = 0
+
+    #Create Opening Widgets
+    def openingWidget(self):
+        self.label1 = Label(self, text = "OBD2 Data Analysis")
+        self.label1.grid()
+        self.button1 = Button(self, text = "Start", command = lambda:self.OnButtonClick(3))
+        self.button1.grid()
+        
+    #Create Main Widgets        
+    def createMainWidget(self):
+        self.button1 = Button(self, text = "Show Result", command = lambda:self.OnButtonClick(1))
+        self.button1.grid()
+        self.button2 = Button(self, text = "Reset", command = lambda:self.OnButtonClick(2))
+        self.button2.grid()
+        self.button3 = Button(self, text = "Back", command = lambda: self.OnButtonClick(4))
+        self.button3.grid()
+
+
+    #To clear the frame of the widgets but don't destroy the frame
+    def clearGui(self):
+       for widget in Frame.winfo_children(self):
+           widget.destroy()
+
+
 
     def is_number(self, s):
         try:
@@ -20,9 +67,11 @@ class OBD2(Frame):
             return s
         except ValueError:
             return 0
+    
 
     def csv_read(self):
         with open('Thurs12-3Log.csv') as csvfile:
+            readCSV = csv.reader(csvfile, delimiter = ',')
             counter = 0
             speedcolm = 13
             rpmcolm = 12
@@ -30,7 +79,6 @@ class OBD2(Frame):
             distcolm = 15
             mpgcolm = 16
             timecolm = 0
-            readCSV = csv.reader(csvfile, delimiter = ',')
             speeds = []
             rpms = []
             throttles = []
@@ -65,7 +113,7 @@ class OBD2(Frame):
             maxthrottle = max(throttles)
 
             avgmpg = round(sum(mpgs)/len(mpgs), 2)
-            self.text = Text(self, height = 10, width = 40)
+            self.text = Text(self, height = 11, width = 40)
             self.text.grid()
             message1 = "\nYour trip began at this time: " + str(tripdate)
             self.text.insert(1.0, message1)
@@ -86,9 +134,11 @@ class OBD2(Frame):
                 message7 = "\nYou're flooring it!"
                 self.text.insert(END, message7)
             message8 = "\nYour average miles per gallon was " + str(avgmpg)
+            self.text.insert(END, message8)
+
 
 root = Tk()
 root.title("OBD2 GUI")
-root.geometry("1000x720")
+root.geometry("400x300")
 app = OBD2(root)
 root.mainloop()
