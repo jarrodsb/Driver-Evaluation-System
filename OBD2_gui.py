@@ -83,7 +83,7 @@ class OBD2(Frame):
             rpms = []
             throttles = []
             dist = []
-            mpgs =[]
+            mpgs = []
 
             for row in readCSV:
                 if counter < 2:
